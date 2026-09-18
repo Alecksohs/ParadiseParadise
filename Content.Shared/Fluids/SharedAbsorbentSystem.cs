@@ -496,8 +496,7 @@ public abstract partial class SharedAbsorbentSystem : EntitySystem
                 user);
 
             // Note: arguably shouldn't this get all solutions?
-            puddleSplit =
-                puddleSolution.SplitSolution(pickupAmount);
+            puddleSplit = puddleSolution.SplitSolution(pickupAmount);
             // Despawn if we're done
             if (puddleSolution.Volume == FixedPoint2.Zero)
             {
