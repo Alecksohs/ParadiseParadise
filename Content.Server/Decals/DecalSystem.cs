@@ -37,9 +37,10 @@ namespace Content.Server.Decals
         [Dependency] private TurfSystem _turf = default!;
 
         private readonly Dictionary<NetEntity, HashSet<Vector2i>> _dirtyChunks = new();
+
 // Paradise Change START - Cleaning
-        private readonly Dictionary<ICommonSession, Dictionary<NetEntity, HashSet<Vector2i>>> _previousSentChunks =
-            new();
+        private readonly Dictionary<ICommonSession, Dictionary<NetEntity, HashSet<Vector2i>>> _previousSentChunks = new();
+
 // Paradise Change END - Cleaning
         private static readonly Vector2 _boundsMinExpansion = new(0.01f, 0.01f);
         private static readonly Vector2 _boundsMaxExpansion = new(1.01f, 1.01f);
@@ -302,6 +303,7 @@ namespace Content.Server.Decals
                 _dirtyChunks[id] = new HashSet<Vector2i>();
             _dirtyChunks[id].Add(chunkIndices);
         }
+
 // Paradise Change START - Cleaning
         public bool TryAddDecal(string id,
             EntityCoordinates coordinates,
@@ -312,7 +314,12 @@ namespace Content.Server.Decals
             CleaningType? cleanType = CleaningType.LightDecal)
         {
             rotation ??= Angle.Zero;
-            var decal = new Decal(coordinates.Position, id, color, rotation.Value, zIndex, cleanType.GetValueOrDefault());
+            var decal = new Decal(coordinates.Position,
+                id,
+                color,
+                rotation.Value,
+                zIndex,
+                cleanType.GetValueOrDefault());
 
             return TryAddDecal(decal, coordinates, out decalId);
         }
@@ -335,6 +342,7 @@ namespace Content.Server.Decals
                 zIndex,
                 cleanable ? CleaningType.LightDecal : CleaningType.Uncleanable);
         }
+
 // Paradise Change END - Cleaning
         public bool TryAddDecal(Decal decal, EntityCoordinates coordinates, out uint decalId)
         {
@@ -421,6 +429,7 @@ namespace Content.Server.Decals
 
             return decalIds;
         }
+
         // Paradise Change - Cleaning
         /// <summary>
         ///     Changes a decals position. Note this will actually result in a new decal being created, possibly on a new grid or chunk.
