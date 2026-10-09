@@ -29,6 +29,16 @@
                                      TexturePath="/Textures/Interface/eject.png">
                         </TextureRect>
                     </Button>
+                    <TextureRect Name="EjectError"
+                                 Visible="False"
+                                 VerticalAlignment="Center"
+                                 Margin="4 8 0 0"
+                                 SetSize="16 16"
+                                 Stretch="KeepAspectCentered"
+                                 MouseFilter="Stop"
+                                 Modulate="Orange"
+                                 TexturePath="/Textures/Interface/Nano/warning.png"
+                                 ToolTip="{Loc 'cryo-pod-window-eject-error'}" />
                     <Control MinWidth="4" />
                 </controls:TguiHeader>
                 <BoxContainer Name="HealthSection" VerticalExpand="True" HorizontalExpand="True" Margin="8">
@@ -66,7 +76,22 @@
                     <BoxContainer Orientation="Vertical">
                         <Label Text="{Loc 'gas-analyzer-window-temperature-text'}"
                                StyleClasses="LabelSubText" />
-                        <Label Name="Temperature" />
+                        <BoxContainer Orientation="Horizontal" SeparationOverride="4">
+                            <Label Name="Temperature" />
+                            <TextureRect Name="HighTemperatureWarning"
+                                         Visible="False"
+                                         VerticalAlignment="Center"
+                                         SetSize="16 16"
+                                         Stretch="KeepAspectCentered"
+                                         MouseFilter="Stop"
+                                         Modulate="Orange"
+                                         TexturePath="/Textures/Interface/Nano/warning.png"
+                                         ToolTip="{Loc 'cryo-pod-window-warning-header'}">
+                                <RichTextLabel Name="HighTemperatureWarningText"
+                                               Visible="False"
+                                               Text="Temperature too high." />
+                            </TextureRect>
+                        </BoxContainer>
                     </BoxContainer>
                 </BoxContainer>
 
@@ -86,93 +111,6 @@
                               Align="Center"
                               Margin="0 0 0 14"
                               SeparationOverride="20">
-
-                    <!-- Ejection error (if the pod is locked) -->
-                    <PanelContainer Name="EjectError"
-                                    Visible="False"
-                                    HorizontalExpand="True">
-                        <PanelContainer.PanelOverride>
-                            <gfx:StyleBoxFlat BorderThickness="1" BorderColor="orange" />
-                        </PanelContainer.PanelOverride>
-
-                        <BoxContainer Orientation="Vertical"
-                                      Margin="6">
-                            <Label Text="{Loc 'cryo-pod-window-error-header'}"
-                                   FontColorOverride="orange"
-                                   Align="Center" />
-                            <RichTextLabel Text="{Loc 'cryo-pod-window-eject-error'}" />
-                        </BoxContainer>
-                    </PanelContainer>
-
-                    <!-- Pressure warning -->
-                    <PanelContainer Name="LowPressureWarning"
-                                    Visible="False"
-                                    HorizontalExpand="True">
-                        <PanelContainer.PanelOverride>
-                            <gfx:StyleBoxFlat BorderThickness="1" BorderColor="orange" />
-                        </PanelContainer.PanelOverride>
-
-                        <BoxContainer Orientation="Vertical"
-                                      Margin="6">
-                            <Label Text="{Loc 'cryo-pod-window-warning-header'}"
-                                   FontColorOverride="orange"
-                                   Align="Center" />
-                            <RichTextLabel Text="{Loc 'cryo-pod-window-low-pressure-warning'}" />
-                        </BoxContainer>
-                    </PanelContainer>
-
-                    <!-- Temperature warning -->
-                    <PanelContainer Name="HighTemperatureWarning"
-                                    Visible="False"
-                                    HorizontalExpand="True">
-                        <PanelContainer.PanelOverride>
-                            <gfx:StyleBoxFlat BorderThickness="1" BorderColor="orange" />
-                        </PanelContainer.PanelOverride>
-
-                        <BoxContainer Orientation="Vertical"
-                                      Margin="6">
-                            <Label Text="{Loc 'cryo-pod-window-warning-header'}"
-                                   FontColorOverride="orange"
-                                   Align="Center" />
-                            <!-- Note: This placeholder text should never be visible. -->
-                            <RichTextLabel Name="HighTemperatureWarningText"
-                                           Text="Temperature too high." />
-                        </BoxContainer>
-                    </PanelContainer>
-
-                    <!-- Status checklist -->
-                    <BoxContainer Orientation="Vertical">
-
-                        <BoxContainer Orientation="Horizontal"
-                                      SeparationOverride="8">
-                            <Label Text="{Loc 'cryo-pod-window-status'}" />
-                            <Label Name="StatusLabel"
-                                   Text="{Loc 'cryo-pod-window-status-not-ready'}"
-                                   FontColorOverride="Orange" />
-                        </BoxContainer>
-
-                        <GridContainer Columns="2"
-                                       HSeparationOverride="0"
-                                       VSeparationOverride="6"
-                                       Margin="6 3 0 0">
-                            <Label Text="⋄"
-                                   StyleClasses="LabelSubText" />
-                            <Label Name="PressureCheck"
-                                   Text="{Loc 'cryo-pod-window-checklist-pressure'}"
-                                   StyleClasses="LabelSubText" />
-                            <Label Text="⋄"
-                                   StyleClasses="LabelSubText" />
-                            <Label Name="ChemicalsCheck"
-                                   Text="{Loc 'cryo-pod-window-checklist-chemicals'}"
-                                   StyleClasses="LabelSubText"
-                                   FontColorOverride="Orange" />
-                            <Label Text="⋄"
-                                   StyleClasses="LabelSubText" />
-                            <Label Name="TemperatureCheck"
-                                   Text="{Loc 'cryo-pod-window-checklist-temperature'}"
-                                   StyleClasses="LabelSubText" />
-                        </GridContainer>
-                    </BoxContainer>
                 </BoxContainer>
             </BoxContainer>
         </PanelContainer>
@@ -180,23 +118,59 @@
         <BoxContainer Orientation="Horizontal" HorizontalExpand="True" VerticalExpand="True" SeparationOverride="8">
             <PanelContainer StyleClasses="SurfacePrimary" HorizontalExpand="True" VerticalExpand="True">
                 <BoxContainer HorizontalExpand="True" VerticalExpand="True" Orientation="Vertical">
-                    <controls:TguiHeader HeaderText="{Loc 'cryo-pod-window-chems-title'}">
+                    <controls:TguiHeader HeaderText="{Loc 'cryo-pod-window-pod-title'}">
                     </controls:TguiHeader>
                     <BoxContainer Margin="8" HorizontalExpand="True" VerticalExpand="True">
                         <!-- Pressure -->
-                        <BoxContainer Orientation="Horizontal" SeparationOverride="6">
-                            <BoxContainer Orientation="Vertical">
+                        <BoxContainer Orientation="Vertical">
+                            <BoxContainer Orientation="Horizontal" SeparationOverride="4">
                                 <Label Text="{Loc 'gas-analyzer-window-pressure-text'}"
                                        StyleClasses="LabelSubText" />
                                 <Label Name="Pressure" />
+                                <TextureRect Name="LowPressureWarning"
+                                             Visible="False"
+                                             VerticalAlignment="Center"
+                                             SetSize="16 16"
+                                             Stretch="KeepAspectCentered"
+                                             MouseFilter="Stop"
+                                             Modulate="Orange"
+                                             TexturePath="/Textures/Interface/info.svg.192dpi.png"
+                                             ToolTip="{Loc 'cryo-pod-window-low-pressure-warning'}" />
                             </BoxContainer>
-                            <TextureRect Name="PressureWarningIcon"
-                                         Visible="False"
-                                         MouseFilter="Stop"
-                                         SetSize="16 16"
-                                         VerticalAlignment="Center"
-                                         Stretch="KeepAspectCentered"
-                                         TexturePath="/Textures/Interface/Nano/triangular_warning.png" />
+
+                            <!-- Status checklist -->
+                            <BoxContainer Orientation="Vertical" Margin="0 8 0 0">
+
+                                <BoxContainer Orientation="Horizontal"
+                                              SeparationOverride="8">
+                                    <Label Text="{Loc 'cryo-pod-window-status'}" StyleClasses="LabelSubtext"/>
+                                    <Label Name="StatusLabel"
+                                           Text="{Loc 'cryo-pod-window-status-not-ready'}"/>
+                                </BoxContainer>
+
+                                <GridContainer Columns="2"
+                                               HSeparationOverride="0"
+                                               VSeparationOverride="6"
+                                               Margin="6 3 0 0">
+                                    <Label Text="⋄"
+                                           StyleClasses="LabelSubText" />
+                                    <Label Name="PressureCheck"
+                                           Text="{Loc 'cryo-pod-window-checklist-pressure'}"
+                                           StyleClasses="LabelSubText" />
+                                    <Label Text="⋄"
+                                           StyleClasses="LabelSubText" />
+                                    <Label Name="ChemicalsCheck"
+                                           Text="{Loc 'cryo-pod-window-checklist-chemicals'}"
+                                           StyleClasses="LabelSubText"
+                                           FontColorOverride="Orange" />
+                                    <Label Text="⋄"
+                                           StyleClasses="LabelSubText" />
+                                    <Label Name="TemperatureCheck"
+                                           Text="{Loc 'cryo-pod-window-checklist-temperature'}"
+                                           StyleClasses="LabelSubText" />
+                                </GridContainer>
+                            </BoxContainer>
+
                         </BoxContainer>
                     </BoxContainer>
                 </BoxContainer>

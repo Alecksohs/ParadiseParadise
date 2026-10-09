@@ -23,6 +23,8 @@ cryo-pod-window-checklist-chemicals = Chemicals available
 cryo-pod-window-checklist-temperature = Cryogenic temperature
 cryo-pod-window-checklist-fail = {$item} — NO
 
+cryo-pod-window-pod-title = Pod
+
 cryo-pod-window-warning-header = WARNING
 cryo-pod-window-low-pressure-warning = Dangerously low pressure. Gas pressure must be approximately 100 kPa for safe operation.
 cryo-pod-window-high-temperature-warning = Temperature too high. {CAPITALIZE($reagent)} requires a temperature below {$temperature} K.

@@ -1,5 +1,7 @@
 using System.Linq;
 using System.Numerics;
+using Content.Client.Stylesheets;
+using Content.Client.Stylesheets.Stylesheets;
 using Content.Client.UserInterface.Controls;
 using Content.Shared.Atmos;
 using Content.Shared.Atmos.EntitySystems;
@@ -20,6 +22,8 @@ public sealed partial class CryoPodWindow : FancyWindow
     [Dependency] private IEntityManager _entityManager = default!;
     [Dependency] private IPrototypeManager _prototypeManager = default!;
     private readonly SharedAtmosphereSystem _atmosphere = default!;
+    private readonly Color _textColorBase;
+    private readonly Color _textColorHighlight;
 
     public event Action? OnEjectPatientPressed;
     public event Action? OnEjectBeakerPressed;
@@ -201,13 +205,13 @@ public sealed partial class CryoPodWindow : FancyWindow
                             isInjecting ? Loc.GetString("cryo-pod-window-status-injecting") :
                             hasPatient  ? Loc.GetString("cryo-pod-window-status-ready-to-inject") :
                                           Loc.GetString("cryo-pod-window-status-ready-for-patient"));
-        StatusLabel.FontColorOverride = (isReady ? Color.DeepSkyBlue : Color.Orange);
+        StatusLabel.FontColorOverride = (isReady ? Color.DeepSkyBlue : Color.IndianRed);
     }
 
     private void UpdateChecklistItem(Label label, string text, bool isOkay)
     {
         label.Text = (isOkay ? text : Loc.GetString("cryo-pod-window-checklist-fail", ("item", text)));
-        label.FontColorOverride = (isOkay ? null : Color.Orange);
+        label.FontColorOverride = (isOkay ? null : Color.IndianRed);
     }
 
     private float? TryFindMaxTemperatureRequirement(ReagentId reagent)
