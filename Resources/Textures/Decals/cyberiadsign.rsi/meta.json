@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "license": "CC BY-SA 3.0",
+  "copyright": "Wisewill, unspecified desired license, contributed to a CC BY-SA 3.0 fork, https://www.paradisestation.org/forum/topic/412-sprite-request-thread/#comment-1732",
+  "size": {
+    "x": 32,
+    "y": 32
+  },
+  "states": [
+    {
+      "name": "cyberiadsign1"
+    },
+    {
+      "name": "cyberiadsign2"
+    },
+    {
+      "name": "cyberiadsign3"
+    },
+    {
+      "name": "cyberiadsign4"
+    },
+    {
+      "name": "cyberiadsign5"
+    },
+    {
+      "name": "cyberiadsign6"
+    },
+    {
+      "name": "cyberiadsign7"
+    }
+  ]
+}
