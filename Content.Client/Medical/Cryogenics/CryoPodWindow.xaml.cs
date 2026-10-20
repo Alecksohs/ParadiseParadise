@@ -22,8 +22,6 @@ public sealed partial class CryoPodWindow : FancyWindow
     [Dependency] private IEntityManager _entityManager = default!;
     [Dependency] private IPrototypeManager _prototypeManager = default!;
     private readonly SharedAtmosphereSystem _atmosphere = default!;
-    private readonly Color _textColorBase;
-    private readonly Color _textColorHighlight;
 
     public event Action? OnEjectPatientPressed;
     public event Action? OnEjectBeakerPressed;
