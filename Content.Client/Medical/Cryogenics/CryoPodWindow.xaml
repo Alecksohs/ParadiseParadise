@@ -37,7 +37,7 @@
                                  Stretch="KeepAspectCentered"
                                  MouseFilter="Stop"
                                  Modulate="Orange"
-                                 TexturePath="/Textures/Interface/Nano/warning.png"
+                                 TexturePath="/Textures/Interface/info.svg.192dpi.png"
                                  ToolTip="{Loc 'cryo-pod-window-eject-error'}" />
                     <Control MinWidth="4" />
                 </controls:TguiHeader>
@@ -85,7 +85,7 @@
                                          Stretch="KeepAspectCentered"
                                          MouseFilter="Stop"
                                          Modulate="Orange"
-                                         TexturePath="/Textures/Interface/Nano/warning.png"
+                                         TexturePath="/Textures/Interface/info.svg.192dpi.png"
                                          ToolTip="{Loc 'cryo-pod-window-warning-header'}">
                                 <RichTextLabel Name="HighTemperatureWarningText"
                                                Visible="False"
