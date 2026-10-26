@@ -226,11 +226,12 @@ namespace Content.Client.Access.UI
                 _internalIDCardState = new IdCardConsoleBoundUserInterfaceState(oldstate.IsPrivilegedIdPresent,
                     oldstate.IsPrivilegedIdAuthorized,
                     oldstate.IsTargetIdPresent,
-                    oldstate.TargetIdFullName,
+                    oldstate.TargetIdNameWithSuffix,
                     job.LocalizedName,
                     (List<ProtoId<AccessLevelPrototype>>?)job.Access,
                     oldstate.AllowedModifyAccessList,
                     job,
+                    string.Empty,
                     oldstate.PrivilegedIdName,
                     oldstate.TargetIdName);
             }
@@ -258,35 +259,34 @@ namespace Content.Client.Access.UI
                 ? Loc.GetString("id-card-console-window-eject-button")
                 : Loc.GetString("id-card-console-window-insert-button");
 
-            TargetIdLabel.Text = state.TargetIdName;
+            TargetIdLabel.Text = state.TargetIdNameWithSuffix;
 
-            if (state.IsPrivilegedIdPresent && state.IsPrivilegedIdAuthorized && !state.IsTargetIdPresent)
+            switch (state.IsPrivilegedIdPresent)
             {
-                _uiState = IDConsoleState.LoggedIn;
-                UpdateUIMenu();
+                case true when state.IsPrivilegedIdAuthorized && !state.IsTargetIdPresent:
+                    _uiState = IDConsoleState.LoggedIn;
+                    break;
+                case true when state.IsPrivilegedIdAuthorized && state.IsTargetIdPresent:
+                    _uiState = IDConsoleState.IdInserted;
+                    break;
+                default:
+                    _uiState = IDConsoleState.On;
+                    break;
             }
-            else if (state.IsPrivilegedIdPresent && state.IsPrivilegedIdAuthorized && state.IsTargetIdPresent)
-            {
-                _uiState = IDConsoleState.IdInserted;
-                UpdateUIMenu();
-            }
-            else
-            {
-                _uiState = IDConsoleState.On;
-                UpdateUIMenu();
-            }
+
+            UpdateUIMenu();
 
             var interfaceEnabled =
                 state.IsPrivilegedIdPresent && state.IsPrivilegedIdAuthorized && state.IsTargetIdPresent;
 
-            var fullNameDirty = _lastFullName != null && FullNameLineEdit.Text != state.TargetIdFullName;
+            var fullNameDirty = _lastFullName != null && FullNameLineEdit.Text != state.TargetIdNameWithSuffix;
             var jobTitleDirty = _lastJobTitle != null && JobTitleLineEdit.Text != state.TargetIdJobTitle;
 
             FullNameLabel.Modulate = interfaceEnabled ? Color.White : Color.Gray;
             FullNameLineEdit.Editable = interfaceEnabled;
             if (!fullNameDirty)
             {
-                FullNameLineEdit.Text = state.TargetIdFullName ?? string.Empty;
+                FullNameLineEdit.Text = state.TargetIdNameWithSuffix ?? string.Empty;
             }
 
 
@@ -310,7 +310,7 @@ namespace Content.Client.Access.UI
 
             JobPresetOptionButton.SelectId(jobIndex);
 
-            _lastFullName = state.TargetIdFullName;
+            _lastFullName = state.TargetIdNameWithSuffix;
             _lastJobTitle = state.TargetIdJobTitle;
             _lastJobProto = state.TargetIdJobPrototype;
         }
