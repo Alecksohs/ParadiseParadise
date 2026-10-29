@@ -261,18 +261,12 @@ namespace Content.Client.Access.UI
 
             TargetIdLabel.Text = state.TargetIdNameWithSuffix;
 
-            switch (state.IsPrivilegedIdPresent)
-            {
-                case true when state.IsPrivilegedIdAuthorized && !state.IsTargetIdPresent:
-                    _uiState = IDConsoleState.LoggedIn;
-                    break;
-                case true when state.IsPrivilegedIdAuthorized && state.IsTargetIdPresent:
-                    _uiState = IDConsoleState.IdInserted;
-                    break;
-                default:
-                    _uiState = IDConsoleState.On;
-                    break;
-            }
+            if (state.IsPrivilegedIdPresent && (state.IsPrivilegedIdAuthorized && !state.IsTargetIdPresent))
+                _uiState = IDConsoleState.LoggedIn;
+            else if (state.IsPrivilegedIdPresent && (state.IsPrivilegedIdAuthorized && state.IsTargetIdPresent))
+                _uiState = IDConsoleState.IdInserted;
+            else
+                _uiState = IDConsoleState.On;
 
             UpdateUIMenu();
 
