@@ -2,6 +2,7 @@ using Content.Client.Humanoid;
 using Content.Client.Message;
 using Content.Client.Players.PlayTimeTracking;
 using Content.Client.Sprite;
+using Content.Client.UserInterface.Controls.ColorPicker;
 using Content.Shared.CCVar;
 using Content.Shared.GameTicking;
 using Content.Shared.Humanoid;
@@ -76,6 +77,7 @@ namespace Content.Client.Lobby.UI
         private ISawmill _sawmill;
 
         private MarkingsViewModel _markingsModel = new();
+        private ColorPicker? _colorPicker;
 
         public HumanoidProfileEditor(
             IClientPreferencesManager preferencesManager,
@@ -216,12 +218,62 @@ namespace Content.Client.Lobby.UI
                 OnSkinColorOnValueChanged();
             };
 
-            RgbSkinColorContainer.AddChild(_rgbSkinColorSelector = new ColorSelectorSliders());
-            _rgbSkinColorSelector.SelectorType = ColorSelectorSliders.ColorSelectorType.Hsv; // defaults color selector to HSV
-            _rgbSkinColorSelector.OnColorChanged += _ =>
+            _rgbSkinColorSelector = new Button
             {
-                OnSkinColorOnValueChanged();
+                Text = Loc.GetString("character-setup-gui-color-picker"),
             };
+
+            _rgbSkinColorSelector.OnPressed += _ =>
+            {
+                if (_colorPicker != null || Profile == null)
+                    return;
+                _colorPicker = new ColorPicker(Profile.Appearance.SkinColor);
+                _colorPicker.OpenCentered();
+                _colorPicker.OnSaveColors += args =>
+                {
+                    if (Profile == null)
+                        return;
+
+                    Profile = Profile.WithCharacterAppearance(Profile.Appearance.WithSkinColor(args));
+
+                    OnSkinColorOnValueChanged();
+                };
+                _colorPicker.OnClose += () =>
+                {
+                    _colorPicker?.Dispose();
+                    _colorPicker = null;
+                };
+            };
+
+            _rgbSkinColorSelector = new Button
+            {
+                Text = Loc.GetString("character-setup-gui-color-picker"),
+            };
+
+            _rgbSkinColorSelector.OnPressed += _ =>
+            {
+                if (_colorPicker != null || Profile == null)
+                    return;
+                _colorPicker = new ColorPicker(Profile.Appearance.SkinColor);
+                _colorPicker.OpenCentered();
+                _colorPicker.OnSaveColors += args =>
+                {
+                    if (Profile == null)
+                        return;
+
+                    Profile = Profile.WithCharacterAppearance(Profile.Appearance.WithSkinColor(args));
+
+                    OnSkinColorOnValueChanged();
+                };
+                _colorPicker.OnClose += () =>
+                {
+                    _colorPicker?.Dispose();
+                    _colorPicker = null;
+                };
+            };
+
+
+            RgbSkinColorContainer.AddChild(_rgbSkinColorSelector);
 
             #endregion
 
