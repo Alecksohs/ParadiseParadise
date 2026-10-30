@@ -245,25 +245,23 @@ namespace Content.Client.Lobby.UI
                 };
             };
 
-            _rgbSkinColorSelector = new Button
-            {
-                Text = Loc.GetString("character-setup-gui-color-picker"),
-            };
 
-            _rgbSkinColorSelector.OnPressed += _ =>
+
+            EyeColorPicker.OnPressed += _ =>
             {
                 if (_colorPicker != null || Profile == null)
                     return;
-                _colorPicker = new ColorPicker(Profile.Appearance.SkinColor);
+                _colorPicker = new ColorPicker(Profile.Appearance.EyeColor);
                 _colorPicker.OpenCentered();
                 _colorPicker.OnSaveColors += args =>
                 {
                     if (Profile == null)
                         return;
 
-                    Profile = Profile.WithCharacterAppearance(Profile.Appearance.WithSkinColor(args));
-
-                    OnSkinColorOnValueChanged();
+                    Profile = Profile.WithCharacterAppearance(
+                        Profile.Appearance.WithEyeColor(args));
+                    _markingsModel.SetOrganEyeColor(Profile.Appearance.EyeColor);
+                    ReloadProfilePreview();
                 };
                 _colorPicker.OnClose += () =>
                 {
@@ -291,20 +289,6 @@ namespace Content.Client.Lobby.UI
             };
 
             #endregion SpawnPriority
-
-            #region Eyes
-
-            EyeColorPicker.OnEyeColorPicked += newColor =>
-            {
-                if (Profile is null)
-                    return;
-                Profile = Profile.WithCharacterAppearance(
-                    Profile.Appearance.WithEyeColor(newColor));
-                _markingsModel.SetOrganEyeColor(Profile.Appearance.EyeColor);
-                ReloadProfilePreview();
-            };
-
-            #endregion Eyes
 
             #endregion Appearance
 

@@ -41,11 +41,8 @@ public sealed class SliderSheetlet<T> : Sheetlet<T> where T: PalettedStylesheet,
         {
             Texture = sheet.GetTextureOr(sliderCfg.SliderGrabber, NanotrasenStylesheet.TextureRoot),
         };
-
-        // sliderFillBox.SetPatchMargin(StyleBox.Margin.All, 12);
-        // sliderBackBox.SetPatchMargin(StyleBox.Margin.All, 12);
-        // sliderForeBox.SetPatchMargin(StyleBox.Margin.All, 12);
-        // sliderGrabBox.SetPatchMargin(StyleBox.Margin.All, 12);
+        
+        sliderGrabBox.SetPatchMargin(StyleBox.Margin.All, 12);
 
         // var sliderFillGreen = new StyleBoxTexture(sliderFillBox) { Modulate = Color.LimeGreen };
         // var sliderFillRed = new StyleBoxTexture(sliderFillBox) { Modulate = Color.Red };

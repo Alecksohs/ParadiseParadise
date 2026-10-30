@@ -122,7 +122,7 @@
                             <!-- Eyes -->
                             <BoxContainer Margin="10" Orientation="Vertical">
                                 <Label Text="{Loc 'humanoid-profile-editor-eyes-label'}" />
-                                <humanoid:EyeColorPicker Name="EyeColorPicker" />
+                                <Button Text="{Loc 'character-setup-gui-color-picker'}" Name="EyeColorPicker"/>
                             </BoxContainer>
                         </BoxContainer>
                     </ScrollContainer>

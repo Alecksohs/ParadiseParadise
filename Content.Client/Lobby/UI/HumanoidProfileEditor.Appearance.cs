@@ -97,7 +97,6 @@ public sealed partial class HumanoidProfileEditor
         }
 
         _markingsModel.SetOrganEyeColor(Profile.Appearance.EyeColor);
-        EyeColorPicker.SetData(Profile.Appearance.EyeColor);
     }
 
     private void UpdateVoiceControls()
