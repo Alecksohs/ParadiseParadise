@@ -1,5 +1,5 @@
 - type: lobbyBackground
-  id: Paradise Renovation
+  id: ParadiseRenovation
   background: /Textures/LobbyScreens/para_renovation.webp
   title: lobby-state-background-pararenovation-title
   artist: lobby-state-background-pararenovation-artist
